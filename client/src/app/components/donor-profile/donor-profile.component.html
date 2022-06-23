@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-md-6">
+    <h6>Email</h6>
+    <p>{{ donor?.email }}</p>
+    <h6>Phone</h6>
+    <p>{{ donor?.phone }}.</p>
+    <h6>Party</h6>
+    <p>{{ donor?.party }}</p>
+    <h6>Recipient</h6>
+    <p>{{ donor?.recipient }}</p>
+    <h6>Occupation</h6>
+    <p>{{ donor?.party }}</p>
+  </div>
+  <div class="col-md-6">
+    <h6>Address</h6>
+    <p>{{ donor?.street1 }}</p>
+    <h6>City & Zip</h6>
+    <p>{{ donor?.city }} | {{ donor?.zip }}</p>
+    <h6>State</h6>
+    <p>{{ donor?.state }}</p>
+    <h6>Is Corporation</h6>
+    <p>{{ donor?.isIndividual == 1 ? "yes" : "no" }}</p>
+    <h6>Last Date of Donation</h6>
+    <p>{{ donor?.lastDateOfDonation }}</p>
+  </div>
+  <div class="col-md-12">
+    <h5 class="mt-2 mb-3">
+      <span class="fa fa-clock-o ion-clock float-right"></span>
+      Recent Activity
+    </h5>
+    <table class="table table-hover table-striped">
+      <tbody>
+        <tr>
+          <td>
+            <strong>Abby</strong> joined ACME Project Team in
+            <strong>`Collaboration`</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>John</strong> deleted My Board1 in
+            <strong>`Discussions`</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Skell</strong> deleted his post Look at Why this is.. in
+            <strong>`Discussions`</strong>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

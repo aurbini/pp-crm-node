@@ -1,0 +1,245 @@
+<div class="card">
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left" style="margin-top: 10px">
+      <button
+        pButton
+        pRipple
+        label="New"
+        icon="pi pi-plus"
+        class="p-button-success mr-2"
+        (click)="openNew()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Delete"
+        icon="pi pi-trash"
+        class="p-button-danger"
+        (click)="deleteSelectedDonors()"
+        [disabled]="!selectedDonors || !selectedDonors.length"
+      ></button>
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <p-fileUpload
+        mode="basic"
+        accept="image/*"
+        [maxFileSize]="1000000"
+        label="Import"
+        chooseLabel="Import"
+        class="mr-2 inline-block"
+      ></p-fileUpload>
+      <button
+        pButton
+        pRipple
+        label="Export"
+        icon="pi pi-upload"
+        class="p-button-help"
+      ></button>
+    </ng-template>
+  </p-toolbar>
+  <p-table
+    class="m-5"
+    #dt
+    *ngIf="donors"
+    [value]="donors"
+    [rows]="20"
+    [loading]="loading"
+    [scrollable]="true"
+    scrollDirection="both"
+    styleClass="p-datatable-striped"
+    [(selection)]="selectedDonors"
+    [rowHover]="true"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[20, 40, 100]"
+    [filterDelay]="0"
+    [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="[
+      'firstName',
+      'lastName',
+      'finalName',
+      'email',
+      'phone',
+      'committeeType',
+      'street1',
+      'city'
+    ]"
+  >
+    >
+    <!-- Global Filter User Input-->
+    <ng-template pTemplate="caption">
+      <div class="flex">
+        <button
+          pButton
+          label="Clear"
+          class="p-button-outlined"
+          icon="pi pi-filter-slash"
+          (click)="clear(dt)"
+        ></button>
+        <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input
+            style="width: auto"
+            class="global-filter"
+            pInputText
+            type="text"
+            (input)="applyGlobalFilter($event, 'contains')"
+            placeholder="Search keyword"
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th>Details</th>
+        <th style="width: 100px">First Name</th>
+        <th style="width: 100px">Last Name</th>
+        <th style="width: 250px" pSortableColumn="finalName">
+          Final Name <p-sortIcon field="finalName"></p-sortIcon>
+          <p-columnFilter
+            type="text"
+            field="city"
+            display="menu"
+          ></p-columnFilter>
+        </th>
+        <th style="width: 100px">Email</th>
+        <th style="width: 100px">Phone</th>
+        <th style="width: 100px" pSortableColumn="city">
+          City<p-sortIcon field="finalName"></p-sortIcon>
+          <p-columnFilter
+            type="text"
+            field="city"
+            display="menu"
+          ></p-columnFilter>
+        </th>
+        <th style="width: 100px">CommitteeType</th>
+        <th style="width: 100px">Street</th>
+        <th style="width: 100px">Street 2</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-donor>
+      <tr [routerLink]="donor.id">
+        <!-- Simple Filter-->
+        <td>
+          <p-tableCheckbox [value]="donor"></p-tableCheckbox>
+        </td>
+        <td>
+          <a [routerLink]="donor.id"
+            ><img src="../../../assets/zoom-in.svg"
+          /></a>
+        </td>
+        <td style="width: 100px">
+          <a> {{ donor.firstName }}</a>
+        </td>
+        <td style="width: 100px">{{ donor?.lastName }}</td>
+        <td style="width: 250px">{{ donor?.finalName }}</td>
+        <td style="width: 100px">{{ donor?.email }}</td>
+        <td style="width: 100px">{{ donor?.phone }}</td>
+        <td style="width: 100px">{{ donor?.city }}</td>
+        <td style="width: 100px">{{ donor?.committeeType }}</td>
+        <td style="width: 100px">{{ donor?.street }}</td>
+        <td style="width: 100px">{{ donor?.street2 }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success mr-2"
+            (click)="editDonor(donor)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-warning"
+            (click)="deleteDonor(donor)"
+          ></button>
+        </td>
+        <!-- Custom Filter-->
+
+        <th></th>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-dialog
+  [(visible)]="donorDialog"
+  [style]="{ width: '450px' }"
+  header="Donor Details"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="name">FinalName</label>
+      <input
+        type="text"
+        pInputText
+        id="name"
+        [(ngModel)]="donor.finalName"
+        required
+        autofocus
+      />
+      <small class="p-error" *ngIf="submitted && !donor.name"
+        >Name is required.</small
+      >
+    </div>
+    <div class="field">
+      <label for="description">Phone</label>
+      <input
+        id="phone"
+        type="text"
+        pInputTextarea
+        [(ngModel)]="donor.phone"
+        required
+      />
+    </div>
+    <div class="field">
+      <label for="description">Email</label>
+      <input
+        id="description"
+        pInputTextarea
+        [(ngModel)]="donor.email"
+        required
+        rows="3"
+        cols="20"
+      />
+    </div>
+    <div class="field">
+      <label for="inventoryStatus">Street</label>
+      <textarea
+        id="description"
+        pInputTextarea
+        [(ngModel)]="donor.email"
+        required
+        rows="3"
+        cols="20"
+      ></textarea>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="saveDonor()"
+    ></button>
+  </ng-template>
+</p-dialog>
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

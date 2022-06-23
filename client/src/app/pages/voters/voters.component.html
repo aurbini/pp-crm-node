@@ -1,0 +1,87 @@
+<p-table
+  class="m-5"
+  #dt
+  *ngIf="voters"
+  [value]="voters"
+  [rows]="20"
+  [loading]="loading"
+  scrollDirection="both"
+  [scrollable]="true"
+  styleClass="p-datatable-striped"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [rowsPerPageOptions]="[20, 40, 100]"
+  [filterDelay]="0"
+  [paginator]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [globalFilterFields]="[
+    'firstName',
+    'lastName',
+    'Email',
+    'zipCode',
+    'phone',
+    'county',
+    'lastDateVoted',
+    'ElectionDistrict'
+  ]"
+>
+  <!-- Global Filter User Input-->
+  <ng-template pTemplate="caption">
+    <div class="flex">
+      <button
+        pButton
+        label="Clear"
+        class="p-button-outlined"
+        icon="pi pi-filter-slash"
+        (click)="clear(dt)"
+      ></button>
+      <span class="p-input-icon-left ml-auto">
+        <i class="pi pi-search"></i>
+        <input
+          style="width: auto; padding-left: 25px"
+          class="global-filter"
+          pInputText
+          type="text"
+          (input)="applyGlobalFilter($event, 'contains')"
+          placeholder="Search keyword"
+        />
+      </span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>firstName</th>
+      <th style="width: 100px">First Name</th>
+      <th style="width: 250px">Last Name</th>
+      <th style="width: 100px">Email</th>
+      <th style="width: 100px">Phone</th>
+      <th style="width: 100px">Address</th>
+      <th style="width: 100px">City</th>
+      <th style="width: 100px">ZipCode</th>
+      <th style="width: 100px">ElectionDistrict</th>
+      <th style="width: 100px">LastDateVoted</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-voter>
+    <tr>
+      <!-- Simple Filter-->
+
+      <th style="width: 100px">{{ voter.firstName }}</th>
+      <th style="width: 100px">{{ voter.lastName }}</th>
+      <th style="width: 250px">{{ voter.email }}</th>
+      <th style="width: 100px">{{ voter.phone }}</th>
+      <th style="width: 100px">{{ voter.mailingAddress }}</th>
+      <th style="width: 100px">{{ voter.city }}</th>
+      <th style="width: 100px">{{ voter.zipCode }}</th>
+      <th style="width: 100px">{{ voter.countyName }}</th>
+      <th class="text-center" style="width: 100px">
+        {{ voter.electionDistrict }}
+      </th>
+      <th style="width: 100px">{{ voter.lastDateVoted | date }}</th>
+
+      <!-- Custom Filter-->
+
+      <th></th>
+    </tr>
+  </ng-template>
+</p-table>

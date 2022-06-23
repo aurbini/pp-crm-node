@@ -1,0 +1,36 @@
+export interface IVoter {
+  id: number;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  dateOfBirth: Date;
+  gender: string;
+  address: string;
+  city: string;
+  countyName: string;
+  countyID: number;
+  stateCode: string;
+  stateFIPS: number;
+  zipCode: number;
+  zipCodeFour: number;
+  mailingAddress: string;
+  politicalPartyCode: string;
+  electionDistrict: number;
+  legislativeDistrict: number;
+  townCity: string;
+  ward: string;
+  congressionalDistrict: number;
+  senateDistrict: number;
+  assemblyDistrict: number;
+  lastDateVoted: Date;
+  lastYearVoted: number;
+  previousCountyID: number;
+  previousAddress: string;
+  previousName: string;
+  countyVRNumber: string;
+  statusCode: string;
+  voterID: string;
+  voterHistory: string;
+}

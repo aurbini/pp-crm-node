@@ -1,0 +1,21 @@
+/* You can add global styles to this file, and also import other style files */
+html {
+  height: 100%;
+  width: 100;
+  background-color: #eee;
+}
+body {
+  font-family: "Inter", sans-serif;
+  font-size: 0.9375rem;
+  color: #1f1f1f;
+  min-height: 100%;
+  overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
+  background: #e6f5ff;
+  margin: 0px;
+  padding: 0px;
+}
+app-root {
+  display: block;
+  height: 100%;
+}
