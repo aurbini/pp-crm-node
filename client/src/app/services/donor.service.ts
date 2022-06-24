@@ -18,13 +18,16 @@ export class DonorService {
       this.baseUrl + 'api/donors/getDonorByID/' + id
     );
   }
-  modifyDonor(id: number, body: any) {
-    console.log(body);
-    return this.http.put(this.baseUrl + 'api/donors/editDonor/' + id, body);
-  }
   addDonor(body: any) {
     const post = { id: null, title: 'adsf', content: ';lkj' };
 
     return this.http.post(this.baseUrl + 'api/donors/addDonor', post);
+  }
+  modifyDonor(id: number, body: any) {
+    console.log(body);
+    return this.http.put(this.baseUrl + 'api/donors/editDonor/' + id, body);
+  }
+  deleteSelectedDonor(donorID: number) {
+    return this.http.delete(this.baseUrl + 'api/donors/deleteDonor/' + donorID);
   }
 }

@@ -15,9 +15,9 @@
         label="Delete"
         icon="pi pi-trash"
         class="p-button-danger"
-        (click)="deleteSelectedDonors()"
         [disabled]="!selectedDonors || !selectedDonors.length"
       ></button>
+      <!-- (click)="deleteSelectedDonors()" -->
     </ng-template>
 
     <ng-template pTemplate="right">
@@ -108,7 +108,7 @@
           ></p-columnFilter>
         </th>
         <th style="width: 100px">Email</th>
-        <th style="width: 100px">Phone</th>
+        <th style="width: 150px">Phone</th>
         <th style="width: 100px" pSortableColumn="city">
           City<p-sortIcon field="finalName"></p-sortIcon>
           <p-columnFilter
@@ -124,7 +124,7 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-donor>
-      <tr [routerLink]="donor.id">
+      <tr>
         <!-- Simple Filter-->
         <td>
           <p-tableCheckbox [value]="donor"></p-tableCheckbox>
@@ -139,26 +139,30 @@
         </td>
         <td style="width: 100px">{{ donor?.lastName }}</td>
         <td style="width: 250px">{{ donor?.finalName }}</td>
-        <td style="width: 100px">{{ donor?.email }}</td>
+        <td
+          style="width: 150px; display: inline-block; overflow-wrap: break-word"
+        >
+          {{ donor?.email }}
+        </td>
         <td style="width: 100px">{{ donor?.phone }}</td>
         <td style="width: 100px">{{ donor?.city }}</td>
         <td style="width: 100px">{{ donor?.committeeType }}</td>
         <td style="width: 100px">{{ donor?.street }}</td>
         <td style="width: 100px">{{ donor?.street2 }}</td>
         <td>
-          <button
+          <!-- <button
             pButton
             pRipple
             icon="pi pi-pencil"
             class="p-button-rounded p-button-success mr-2"
             (click)="editDonor(donor)"
-          ></button>
+          ></button> -->
           <button
             pButton
             pRipple
             icon="pi pi-trash"
             class="p-button-rounded p-button-warning"
-            (click)="deleteDonor(donor)"
+            (click)="openDeleteDonorDialog(donor)"
           ></button>
         </td>
         <!-- Custom Filter-->
@@ -242,4 +246,4 @@
     ></button>
   </ng-template>
 </p-dialog>
-<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<p-confirmDialog [style]="{ width: '450px' }"> </p-confirmDialog>

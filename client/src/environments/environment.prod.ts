@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://ppcrm.herokuapp.com/',
+  apiUrl: 'https://infinite-scrubland-35372.herokuapp.com/',
 };

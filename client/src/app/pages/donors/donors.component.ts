@@ -37,6 +37,7 @@ export class DonorsComponent implements OnInit {
   private getDonors() {
     console.log('hello');
     this.donorSvc.getDonors().subscribe((data) => {
+      console.log(data);
       this.donors = data;
       this.loading = false;
       this.cols = [
@@ -68,37 +69,41 @@ export class DonorsComponent implements OnInit {
     this.donorDialog = true;
   }
 
-  deleteSelectedDonors() {
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected donors?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.donors = this.donors.filter((val) =>
-          this.selectedDonors!.includes(val)
-        );
-        this.selectedDonors = null;
-        this.toastrSvc.success('Deleted Donor');
-      },
-    });
-  }
+  // deleteSelectedDonors() {
+  //   this.confirmationService.confirm({
+  //     message: 'Are you sure you want to delete the selected donors?',
+  //     header: 'Confirm',
+  //     icon: 'pi pi-exclamation-triangle',
+  //     accept: () => {
+  //       this.donors = this.donors.filter((val) =>
+  //         this.selectedDonors!.includes(val)
+  //       );
+  //       this.selectedDonors = null;
+  //       this.toastrSvc.success('Deleted Donor');
+  //     },
+  //   });
+  // }
 
   editDonor(donor: IDonor) {
-    this.donor = { ...donor };
     this.donorDialog = true;
   }
 
-  deleteDonor(donor: IDonor) {
+  openDeleteDonorDialog(donor: IDonor) {
     console.log('object');
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete ' + donor.firstName + '?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
+        this.deleteSelectedDonor(donor.id);
         this.donors = this.donors.filter((val) => val.id !== donor.id);
-        this.donor = {};
         this.toastrSvc.success('Donor deleted');
       },
+    });
+  }
+  deleteSelectedDonor(id: number) {
+    this.donorSvc.deleteSelectedDonor(id).subscribe((data) => {
+      this.toastrSvc.success('Deleted selected donor');
     });
   }
 
