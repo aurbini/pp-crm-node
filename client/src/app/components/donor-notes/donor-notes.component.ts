@@ -39,7 +39,7 @@ export class DonorNotesComponent implements OnInit {
   onNoteFormSubmit() {
     this.noteForm.get('createdBy')!.setValue('user name');
     this.noteForm.get('updatedBy')!.setValue('user name');
-    this.noteForm.get('DonorID')!.setValue(this.donor.id);
+    this.noteForm.get('donor')!.setValue(this.donor.id);
     this.noteSvc.createNote(this.noteForm.value).subscribe((data) => {
       console.log(data);
     });
