@@ -25,7 +25,7 @@
     "dev": "ts-node src/server.ts",
     "typeorm": "typeorm-ts-node-commonjs",
     "build": "tsc",
-    "deploy": "git add . && git commit -m 'comment' && git push heroku master && heroku run bash ",
+    "deploy": "rm -rf .git && git init && git add . && git commit -m 'comment' && heroku git:remote -a infinite-scrubland-35372 && git push heroku master --force && heroku run bash && tsc ",
     "migration:generate": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:generate -d ./src/data-source.ts ./src/migration/$npm_config_name",
     "migration:up": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run -d ./src/data-source.ts",
     "migration:down": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:revert -d ./src/data-source.ts"

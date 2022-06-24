@@ -18,7 +18,7 @@ class Server {
       //database connection
       try {
         await AppDataSource.initialize();
-        console.log('database connected');
+        console.log('database connected on port' + process.env.PORT);
       } catch (err) {
         console.log(err);
       }

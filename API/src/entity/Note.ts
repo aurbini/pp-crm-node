@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { Donors } from './Donor';
 
-@Entity()
+@Entity('Notes')
 export class Notes {
   @PrimaryGeneratedColumn()
   ID: number;

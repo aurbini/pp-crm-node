@@ -10,32 +10,34 @@ import * as fs from 'fs';
 if (fs.existsSync('.env')) {
   dotenv.config({ path: '.env' });
 }
-
 dotenv.config({ path: __dirname + '.env' });
-const USERNAME = process.env.USERNAME.slice(0, -1);
-const PASSWORD = process.env.PASSWORD.slice(0, -1);
-const DB = process.env.DB.slice(0, -1);
-const HOST = process.env.HOST.slice(0, -1);
-const host =
-  process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : HOST;
-//  HOST;
-const userName = process.env.NODE_ENV == 'production' ? 'admin' : USERNAME;
-// USERNAME;
-const password =
-  process.env.NODE_ENV == 'production' ? process.env.DB_PASSWORD : PASSWORD;
-//  PASSWORD;
-const database = process.env.NODE_ENV == 'production' ? 'crm' : 'ppcrm2';
-
+let USERNAME = '';
+let PASSWORD = '';
+let DB = '';
+let HOST = '';
+if (process.env.NODE_ENV != 'production') {
+  USERNAME = process.env.USERNAME.slice(0, -1);
+  PASSWORD = process.env.PASSWORD.slice(0, -1);
+  DB = process.env.DB.slice(0, -1);
+  HOST = process.env.HOST.slice(0, -1);
+} else {
+  USERNAME = 'admin';
+  PASSWORD = process.env.DB_PASSWORD;
+  DB = 'crm';
+  HOST = process.env.DATABASE_URL;
+}
 export const AppDataSource = new DataSource({
   type: 'mysql',
-  host: host,
+  host: HOST,
   port: 3306,
-  username: userName,
-  password: password,
-  database: database,
+  username: USERNAME,
+  password: PASSWORD,
+  database: DB,
   synchronize: false,
   logging: false,
   entities: [User, Donors, Notes, Donation],
-  migrations: ['src/migration/*.ts'],
+  migrations: [''],
   subscribers: [],
 });
+
+// migrations: ['src/migration/*.ts'],
