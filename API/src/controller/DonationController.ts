@@ -12,4 +12,11 @@ export class DonationController {
 
     res.send(donations);
   };
+  public getDonationsByDonorID = async (req: Request, res: Response) => {
+    const donations = await this.donationService.getDonationsByDonor(
+      req.params.id
+    );
+
+    res.send(donations);
+  };
 }

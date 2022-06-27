@@ -1,11 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Donors } from './Donor';
 
 @Entity('Donations')
-export class Donation {
+export class Donations {
   @PrimaryGeneratedColumn()
   ID: number;
-  @Column({ nullable: true })
-  donorID: number;
+  @ManyToOne(() => Donors, (donors) => donors.donation, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'donorID' })
+  donor: number;
   @Column({ nullable: true })
   firstName: string;
   @Column({ nullable: true })
@@ -67,7 +75,7 @@ export class Donation {
   @Column({ nullable: true })
   activeStat: string;
   @Column({ nullable: true })
-  committeeI: string;
+  committeeID: string;
   @Column({ nullable: true })
   orgType: string;
   @Column({ nullable: true })

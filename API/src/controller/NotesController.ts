@@ -13,9 +13,8 @@ export class NotesController {
   };
   public addNote = async (req: Request, res: Response) => {
     const note = await this.notesService.saveNote(req.body);
-    res.json({
-      Message: 'New Note created successfully with name id' + note.id,
-    });
+    console.log(note);
+    res.send(note);
   };
   public deleteNote = async (req: Request, res: Response) => {
     await this.notesService.deleteNote(req.params.id);

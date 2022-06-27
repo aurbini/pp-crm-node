@@ -19,12 +19,11 @@ export class NoteService {
         'n.createdBy',
       ])
       .leftJoin('n.donor', 'd')
-      .where(`d.id = :dId`, { dId: donorId })
+      .where(`d.ID = :dId`, { dId: donorId })
       .getMany();
     return notes;
   };
   public saveNote = async (note: any) => {
-    console.log(note);
     const newNote = await this.noteRepo.create(note);
     await this.noteRepo.save(note);
     return newNote;

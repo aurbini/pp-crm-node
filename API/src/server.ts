@@ -18,7 +18,7 @@ class Server {
       //database connection
       try {
         await AppDataSource.initialize();
-        console.log('database connected on port' + process.env.PORT);
+        console.log('database connected on port ' + 3306);
       } catch (err) {
         console.log(err);
       }
@@ -41,7 +41,7 @@ class Server {
     return new Promise((resolve, reject) => {
       this.app
         .listen(port, () => {
-          console.log('app listening on :' + port);
+          console.log('app listening on : ' + port);
           resolve(port);
         })
         .on('error', (err: Object) => reject(err));

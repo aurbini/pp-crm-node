@@ -88,7 +88,44 @@
         [columns]="columns"
         [value]="voters"
         responsiveLayout="scroll"
+        #vt
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        responsiveLayout="scroll"
+        [globalFilterFields]="[
+          'firstName',
+          'lastName',
+          'Email',
+          'zipCode',
+          'phone',
+          'county',
+          'lastDateVoted',
+          'ElectionDistrict'
+        ]"
       >
+        <ng-template pTemplate="caption">
+          <div class="flex">
+            <button
+              pButton
+              label="Clear"
+              class="p-button-outlined"
+              icon="pi pi-filter-slash"
+              (click)="clear(vt)"
+            ></button>
+            <span class="p-input-icon-left ml-auto">
+              <i class="pi pi-search"></i>
+              <input
+                style="width: auto; padding-left: 25px"
+                class="global-filter"
+                pInputText
+                type="text"
+                (input)="applyGlobalFilter($event, 'contains')"
+                placeholder="Search keyword"
+              />
+            </span>
+          </div>
+        </ng-template>
         <ng-template pTemplate="header" let-columns>
           <tr>
             <th *ngFor="let col of columns">

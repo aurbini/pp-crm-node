@@ -1,10 +1,11 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Notes } from './Note';
+import { Donations } from './Donation';
 
 @Entity('Donors')
 export class Donors {
   @PrimaryGeneratedColumn()
-  id: number;
+  ID: number;
   @Column({ nullable: true })
   firstName: string;
   @Column({ nullable: true })
@@ -35,4 +36,6 @@ export class Donors {
   isIndividual: number;
   @OneToMany(() => Notes, (notes) => notes.donor)
   note: Notes[];
+  @OneToMany(() => Donations, (donations) => donations.donor)
+  donation: Donations[];
 }

@@ -10,6 +10,7 @@
     "typescript": "4.5.2"
   },
   "dependencies": {
+    "@types/xlsx": "^0.0.36",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
@@ -17,7 +18,8 @@
     "mysql": "^2.18.1",
     "pg": "^8.4.0",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "0.3.6"
+    "typeorm": "0.3.6",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "node build/server.js",
@@ -25,7 +27,7 @@
     "dev": "ts-node src/server.ts",
     "typeorm": "typeorm-ts-node-commonjs",
     "build": "tsc",
-    "deploy": "rm -rf .git && git init && git add . && git commit -m 'comment' && heroku git:remote -a infinite-scrubland-35372 && git push heroku master --force && heroku run bash && tsc ",
+    "deploy": "rm -rf .git && git init && git add . && git commit -m 'comment' && heroku git:remote -a infinite-scrubland-35372 && git push heroku master --force ",
     "migration:generate": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:generate -d ./src/data-source.ts ./src/migration/$npm_config_name",
     "migration:up": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run -d ./src/data-source.ts",
     "migration:down": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:revert -d ./src/data-source.ts"

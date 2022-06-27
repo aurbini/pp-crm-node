@@ -1,10 +1,12 @@
 import { Donors } from '../entity/Donor';
 import { AppDataSource } from '../data-source';
+import { createQueryBuilder } from 'typeorm';
 
 export class DonorService {
   // private donorRepository: DonorRepository;
 
   donorRepo: any;
+
   constructor() {
     this.donorRepo = AppDataSource.getRepository(Donors);
   }
@@ -16,7 +18,7 @@ export class DonorService {
   };
   public getDonorById = async (donorID: number) => {
     const donor = await this.donorRepo.findOneBy({
-      id: donorID,
+      ID: donorID,
     });
     return donor;
   };
@@ -30,5 +32,13 @@ export class DonorService {
   };
   public removeDonor = async (donorID: string) => {
     const result = await this.donorRepo.delete(donorID);
+  };
+  public getCustomSearch = async (customSearch: string[]) => {
+    const result = await this.donorRepo
+      .createQueryBuilder('donor')
+      .select(customSearch)
+      .take(1000)
+      .getMany();
+    return result;
   };
 }
