@@ -20,7 +20,7 @@ export class DonorNotesComponent implements OnInit {
     this.initNoteFormFields();
   }
   getNotes() {
-    this.noteSvc.getNotesByDonorID(this.donor.id).subscribe((data: INote[]) => {
+    this.noteSvc.getNotesByDonorID(this.donor.ID).subscribe((data: INote[]) => {
       this.notes = data;
       console.log(this.notes);
     });
@@ -39,9 +39,10 @@ export class DonorNotesComponent implements OnInit {
   onNoteFormSubmit() {
     this.noteForm.get('createdBy')!.setValue('user name');
     this.noteForm.get('updatedBy')!.setValue('user name');
-    this.noteForm.get('donor')!.setValue(this.donor.id);
-    this.noteSvc.createNote(this.noteForm.value).subscribe((data) => {
+    this.noteForm.get('donor')!.setValue(this.donor.ID);
+    this.noteSvc.createNote(this.noteForm.value).subscribe((data: INote) => {
       console.log(data);
+      this.notes.push(data);
     });
     this.displayAddNote = false;
   }

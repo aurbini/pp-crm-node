@@ -1,0 +1,32 @@
+<p-table
+  [value]="(donations$ | async)!"
+  [scrollable]="true"
+  scrollHeight="400px"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Date</th>
+      <th>Amount</th>
+      <th>Party</th>
+      <th>Recipient</th>
+      <th>Occupation</th>
+      <th>street</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-donation>
+    <tr>
+      <td>{{ donation.date }}</td>
+      <td>{{ donation.amount }}</td>
+      <td>{{ donation.party }}</td>
+      <td>{{ donation.recipient }}</td>
+      <td>{{ donation.occupation }}</td>
+      <td>{{ donation.street }}</td>
+      <td>{{ donation.city }}</td>
+      <td>{{ donation.state }}</td>
+      <td>{{ donation.zip }}</td>
+    </tr>
+  </ng-template>
+</p-table>

@@ -32,7 +32,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 // import { CalendarComponent } from './pages/calendar/calendar.component';
 // import { RegisterComponent } from './pages/register/register.component';
-// import { VotersComponent } from './pages/voters/voters.component';
+import { VotersComponent } from './pages/voters/voters.component';
 // import { LoginComponent } from './pages/login/login.component';
 import { DonorNotesComponent } from './components/donor-notes/donor-notes.component';
 import { DonorEditComponent } from './components/donor-edit/donor-edit.component';
@@ -41,6 +41,8 @@ import { DonorsComponent } from './pages/donors/donors.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { DonorDetailComponent } from './pages/donor-detail/donor-detail.component';
 import { DonorProfileComponent } from './components/donor-profile/donor-profile.component';
+import { SearchComponent } from './pages/search/search.component';
+import { DonorDonationsComponent } from './components/donor-donations/donor-donations.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,7 @@ import { DonorProfileComponent } from './components/donor-profile/donor-profile.
     SidebarComponent,
     HeaderComponent,
     DonorsComponent,
-    // VotersComponent,
+    VotersComponent,
     // CalendarComponent,
     // LoginComponent,
     DonorDetailComponent,
@@ -56,6 +58,8 @@ import { DonorProfileComponent } from './components/donor-profile/donor-profile.
     DonorProfileComponent,
     DonorNotesComponent,
     DonorEditComponent,
+    SearchComponent,
+    DonorDonationsComponent,
   ],
   imports: [
     BrowserModule,

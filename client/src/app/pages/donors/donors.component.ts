@@ -95,8 +95,8 @@ export class DonorsComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.deleteSelectedDonor(donor.id);
-        this.donors = this.donors.filter((val) => val.id !== donor.id);
+        this.deleteSelectedDonor(donor.ID);
+        this.donors = this.donors.filter((val) => val.ID !== donor.ID);
         this.toastrSvc.success('Donor deleted');
       },
     });
@@ -117,7 +117,7 @@ export class DonorsComponent implements OnInit {
 
     if (this.donor.name.trim()) {
       if (this.donor.id) {
-        this.donors[this.findIndexById(this.donor.id)] = this.donor;
+        this.donors[this.findIndexById(this.donor.ID)] = this.donor;
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
@@ -145,7 +145,7 @@ export class DonorsComponent implements OnInit {
   findIndexById(id: string): number {
     let index = -1;
     for (let i = 0; i < this.donors.length; i++) {
-      if (this.donors[i].id.toString() === id) {
+      if (this.donors[i].ID.toString() === id) {
         index = i;
         break;
       }

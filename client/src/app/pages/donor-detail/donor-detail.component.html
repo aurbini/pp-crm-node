@@ -116,6 +116,19 @@
             <li
               class="nav-item"
               routerLinkActive="active"
+              [ngClass]="userContent === 'donations' ? 'active-pane' : ''"
+            >
+              <a
+                (click)="toggleSidebar(userContentTypes.donations)"
+                data-toggle="pill"
+                class="nav-link"
+                ><i class="icon-envelope-open"></i>
+                <span class="hidden-xs">Donations</span></a
+              >
+            </li>
+            <li
+              class="nav-item"
+              routerLinkActive="active"
               [ngClass]="userContent === 'edit' ? 'active-pane' : ''"
             >
               <a
@@ -139,6 +152,9 @@
             </div>
             <div class="" id="edit" *ngIf="userContent == 'edit'">
               <app-donor-edit [donor]="donorDetail"></app-donor-edit>
+            </div>
+            <div class="" id="edit" *ngIf="userContent == 'donations'">
+              <app-donor-donations [donor]="donorDetail"></app-donor-donations>
             </div>
           </div>
         </div>

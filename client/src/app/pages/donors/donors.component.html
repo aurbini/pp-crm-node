@@ -51,7 +51,6 @@
     [(selection)]="selectedDonors"
     [rowHover]="true"
     [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [rowsPerPageOptions]="[20, 40, 100]"
     [filterDelay]="0"
     [paginator]="true"
@@ -130,9 +129,9 @@
           <p-tableCheckbox [value]="donor"></p-tableCheckbox>
         </td>
         <td>
-          <a [routerLink]="donor.id"
-            ><img src="../../../assets/zoom-in.svg"
-          /></a>
+          <a [routerLink]="donor.ID">
+            <img src="../../../assets/zoom-in.svg" />
+          </a>
         </td>
         <td style="width: 100px">
           <a> {{ donor.firstName }}</a>

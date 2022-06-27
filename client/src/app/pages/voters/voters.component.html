@@ -1,4 +1,4 @@
-<p-table
+<!-- <p-table
   class="m-5"
   #dt
   *ngIf="voters"
@@ -25,7 +25,6 @@
     'ElectionDistrict'
   ]"
 >
-  <!-- Global Filter User Input-->
   <ng-template pTemplate="caption">
     <div class="flex">
       <button
@@ -64,8 +63,6 @@
   </ng-template>
   <ng-template pTemplate="body" let-voter>
     <tr>
-      <!-- Simple Filter-->
-
       <th style="width: 100px">{{ voter.firstName }}</th>
       <th style="width: 100px">{{ voter.lastName }}</th>
       <th style="width: 250px">{{ voter.email }}</th>
@@ -79,9 +76,34 @@
       </th>
       <th style="width: 100px">{{ voter.lastDateVoted | date }}</th>
 
-      <!-- Custom Filter-->
-
       <th></th>
     </tr>
   </ng-template>
-</p-table>
+</p-table> -->
+<div class="card">
+  <div class="row">
+    <div class="">
+      <p-table
+        class="m-4"
+        [columns]="columns"
+        [value]="voters"
+        responsiveLayout="scroll"
+      >
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns">
+              {{ col.header }}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-voter let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns; let i = index">
+              {{ voter[col.field] }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

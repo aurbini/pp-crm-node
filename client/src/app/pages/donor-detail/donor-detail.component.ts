@@ -43,4 +43,5 @@ export enum UserContentTypes {
   profile = 'profile',
   notes = 'notes',
   edit = 'edit',
+  donations = 'donations',
 }

@@ -32,25 +32,20 @@ export class DonorEditComponent implements OnInit {
       finalName: [this.donor?.finalName],
       email: [this.donor?.email],
       phone: [this.donor?.phone],
-      committeeType: [this.donor?.committeeType],
       street1: [this.donor?.street1],
       street2: [this.donor?.street2],
       city: [this.donor?.city],
       state: [this.donor?.state],
       stateID: [this.donor?.stateID],
       zip: [this.donor?.zip],
-      lastDateOfDonation: [this.donor?.lastDateOfDonation],
       occupation: [this.donor?.occupation],
-      recipient: [this.donor?.recipient],
-      party: [this.donor?.party],
       isIndividual: [this.donor?.isIndividual],
-      voterID: [this.donor?.voterID],
     });
     // console.log(this.donorForm.value);
   }
   onDonorFormSubmit() {
     this.donorSvc
-      .modifyDonor(this.donor.id, this.donorForm.value)
+      .modifyDonor(this.donor.ID, this.donorForm.value)
       .subscribe((res) => {
         // console.log(res);
       });

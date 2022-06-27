@@ -1,0 +1,44 @@
+<div class="row p-3">
+  <div class="col">
+    <p-card>
+      <ng-template pTemplate="header"> Donor Search Criteria </ng-template>
+      <ng-template pTemplate="content">
+        <form
+          [formGroup]="form"
+          (ngSubmit)="onSubmit()"
+          action=""
+          class="form-group"
+        >
+          <div>
+            <label>Product Category <strong>(Form Group)</strong></label>
+            <div class="checkbox-group" class="row">
+              <div *ngFor="let data of categories; let i = index" class="col-5">
+                <div>
+                  <label>
+                    <input
+                      type="checkbox"
+                      [value]="data.value"
+                      (change)="onCheckboxChange($event)"
+                    />
+                    {{ data.title }}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <input type="submit" value="Submit" />
+
+            <p
+              class="error"
+              *ngIf="this.form.controls['checkArray'].errors?.['required']"
+            >
+              Checkbox is required, select atleast one value.
+            </p>
+
+            <div class="alert alert-primary mt-2"></div>
+          </div>
+        </form>
+      </ng-template>
+      <ng-template pTemplate="footer"> Footer content here </ng-template>
+    </p-card>
+  </div>
+</div>

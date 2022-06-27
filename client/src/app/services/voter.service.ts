@@ -10,6 +10,6 @@ export class VoterService {
   constructor(private http: HttpClient) {}
 
   getVoters() {
-    return this.http.get<IVoter[]>(this.baseUrl + '/voter/getVoters');
+    return this.http.get<IVoter[]>(this.baseUrl + 'api/voter/getVoters');
   }
 }

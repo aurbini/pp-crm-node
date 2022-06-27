@@ -13,15 +13,36 @@
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
     >
-      <a routerLink="donors" role="tab" data-toggle="tab" class="nav-link"
-        >Donors</a
-      >
-    </li>
-    <li role="presentation" routerLinkActive="active" class="w-100">
       <a routerLink="voters" role="tab" data-toggle="tab" class="nav-link"
         >Voters</a
       >
     </li>
+    <li
+      role="presentation"
+      class="w-100"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <a routerLink="donors" role="tab" data-toggle="tab" class="nav-link"
+        >Donors</a
+      >
+    </li>
+    <li></li>
+    <li
+      role="presentation"
+      class="w-100"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <a routerLink="search" role="tab" data-toggle="tab" class="nav-link"
+        >Search</a
+      >
+    </li>
+    <!-- <li role="presentation" routerLinkActive="active" class="w-100">
+      <a routerLink="voters" role="tab" data-toggle="tab" class="nav-link"
+        >Voters</a
+      >
+    </li> -->
     <li>
       <!-- <a routerLink="donors">Donations</a> -->
     </li>

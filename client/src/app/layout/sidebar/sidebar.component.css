@@ -4,6 +4,7 @@
   color: #fff;
   transition: all 0.3s;
   min-height: 100%;
+  max-width: 200px;
 }
 
 #sidebar.active {
