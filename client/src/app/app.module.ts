@@ -43,6 +43,7 @@ import { DonorDetailComponent } from './pages/donor-detail/donor-detail.componen
 import { DonorProfileComponent } from './components/donor-profile/donor-profile.component';
 import { SearchComponent } from './pages/search/search.component';
 import { DonorDonationsComponent } from './components/donor-donations/donor-donations.component';
+import { ErrorComponent } from './pages/error/error.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { DonorDonationsComponent } from './components/donor-donations/donor-dona
     DonorEditComponent,
     SearchComponent,
     DonorDonationsComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,

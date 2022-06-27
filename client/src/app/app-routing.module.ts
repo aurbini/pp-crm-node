@@ -1,3 +1,4 @@
+import { ErrorComponent } from './pages/error/error.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DonorsComponent } from './pages/donors/donors.component';
@@ -16,8 +17,8 @@ const routes: Routes = [
   // { path: 'login', component: LoginComponent },
   // { path: 'register', component: RegisterComponent },
   { path: 'voters', component: VotersComponent },
+  { path: 'server-error', component: ErrorComponent },
   // Wildcard route for a 404 page
-  // { path: 'donations', component: DonorsComponent },
   { path: '**', component: DonorsComponent },
 ];
 
