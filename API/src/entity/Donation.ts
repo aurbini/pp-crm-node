@@ -31,7 +31,7 @@ export class Donations {
   @Column({ nullable: true })
   street1: string;
   @Column({ nullable: true })
-  street: string;
+  street2: string;
   @Column({ nullable: true })
   city: string;
   @Column({ nullable: true })
@@ -53,9 +53,9 @@ export class Donations {
   @Column({ nullable: true })
   employerCity: string;
   @Column({ nullable: true })
-  employerSt: string;
+  employerState: string;
   @Column({ nullable: true })
-  employerZi: string;
+  employerZip: string;
   @Column({ nullable: true })
   IntermediaryDonation: string;
   @Column({ nullable: true })
@@ -73,7 +73,7 @@ export class Donations {
   @Column({ nullable: true })
   IntermediaryEmail: string;
   @Column({ nullable: true })
-  activeStat: string;
+  activeStatus: string;
   @Column({ nullable: true })
   committeeID: string;
   @Column({ nullable: true })
@@ -87,7 +87,7 @@ export class Donations {
   @Column({ nullable: true })
   cycle: string;
   @Column({ nullable: true })
-  nameMixed: string;
+  FinalName: string;
   @Column({ nullable: true })
   isIndividual: string;
 }

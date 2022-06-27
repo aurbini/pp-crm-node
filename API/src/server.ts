@@ -3,6 +3,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import baseRouter from './route';
+const HttpError = require('./models/http-error');
 
 class Server {
   private app;
@@ -35,6 +36,17 @@ class Server {
   //Routes
   private routerConfig() {
     this.app.use('/', baseRouter);
+    this.app.use((req, res, next) => {
+      const error = new HttpError('Could not find this route.', 404);
+      throw error;
+    });
+    this.app.use((error, req, res, next) => {
+      if (res.headerSent) {
+        return next(error);
+      }
+      res.status(error.code || 500);
+      res.redirect('/server-error');
+    });
   }
   //Start server
   public start = (port: number | string) => {

@@ -54,8 +54,6 @@ export class Voters {
   @Column({ nullable: true })
   AssemblyDistrict?: number;
   @Column({ nullable: true })
-  DateTime?: Date;
-  @Column({ nullable: true })
   LastYearVoted?: number;
   @Column({ nullable: true })
   PreviousCountyID?: number;
