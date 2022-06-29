@@ -4,6 +4,10 @@ import { IDonor } from '../../models/donor.model';
 import { Table } from 'primeng/table';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { NgxSpinnerService } from 'ngx-spinner';
+import * as xlsx from 'xlsx';
+import * as FileSaver from 'file-saver';
+
 @Component({
   selector: 'app-donors',
   templateUrl: './donors.component.html',
@@ -20,22 +24,27 @@ export class DonorsComponent implements OnInit {
   submitted!: boolean;
   selectedDonors!: IDonor[] | null;
   status!: any[];
+  page: number = 1;
   cities = [{ name: 'New York' }, { name: 'Albany' }, { name: 'Brooklyn' }];
-  @ViewChild('dt') dtRef: Table | any;
+  @ViewChild(Table, { static: false }) dt: Table | any;
   constructor(
     private donorSvc: DonorService,
-    private toastrSvc: ToastrService,
+    private toastr: ToastrService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
+    this.spinner.show();
+
     this.submitted = false;
     this.donorDialog = false;
     this.getDonors();
   }
   private getDonors() {
     console.log('hello');
+    // this.spinner.show();
     this.donorSvc.getDonors().subscribe((data) => {
       console.log(data);
       this.donors = data;
@@ -51,13 +60,11 @@ export class DonorsComponent implements OnInit {
         { field: 'street2', header: 'Street2' },
         { field: 'city', header: 'City' },
       ];
+      this.spinner.hide();
     });
   }
   applyGlobalFilter($event: Event, stringVal: string) {
-    this.dtRef.filterGlobal(
-      ($event.target as HTMLInputElement).value,
-      stringVal
-    );
+    this.dt.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
   clear(table: Table) {
     table.clear();
@@ -68,21 +75,6 @@ export class DonorsComponent implements OnInit {
     this.submitted = false;
     this.donorDialog = true;
   }
-
-  // deleteSelectedDonors() {
-  //   this.confirmationService.confirm({
-  //     message: 'Are you sure you want to delete the selected donors?',
-  //     header: 'Confirm',
-  //     icon: 'pi pi-exclamation-triangle',
-  //     accept: () => {
-  //       this.donors = this.donors.filter((val) =>
-  //         this.selectedDonors!.includes(val)
-  //       );
-  //       this.selectedDonors = null;
-  //       this.toastrSvc.success('Deleted Donor');
-  //     },
-  //   });
-  // }
 
   editDonor(donor: IDonor) {
     this.donorDialog = true;
@@ -97,16 +89,44 @@ export class DonorsComponent implements OnInit {
       accept: () => {
         this.deleteSelectedDonor(donor.ID);
         this.donors = this.donors.filter((val) => val.ID !== donor.ID);
-        this.toastrSvc.success('Donor deleted');
+        this.toastr.success('Donor deleted');
       },
     });
   }
   deleteSelectedDonor(id: number) {
     this.donorSvc.deleteSelectedDonor(id).subscribe((data) => {
-      this.toastrSvc.success('Deleted selected donor');
+      this.toastr.success('Deleted selected donor');
     });
   }
-
+  changeSearchPage(typeOfPageChange: 'up' | 'down') {
+    if (typeOfPageChange == 'up') this.page++;
+    else this.page--;
+    this.donorSvc.getDonorsByPage(this.page).subscribe((data) => {
+      console.log(data);
+      this.donors = data;
+    });
+  }
+  exportAsExcel() {
+    const worksheet = xlsx.utils.json_to_sheet(this.donors);
+    const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = xlsx.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+    this.saveAsExcelFile(excelBuffer, 'products');
+  }
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    let EXCEL_TYPE =
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    let EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], {
+      type: EXCEL_TYPE,
+    });
+    FileSaver.saveAs(
+      data,
+      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
+    );
+  }
   hideDialog() {
     this.donorDialog = false;
     this.submitted = false;
@@ -164,3 +184,18 @@ export class DonorsComponent implements OnInit {
     return id;
   }
 }
+
+// deleteSelectedDonors() {
+//   this.confirmationService.confirm({
+//     message: 'Are you sure you want to delete the selected donors?',
+//     header: 'Confirm',
+//     icon: 'pi pi-exclamation-triangle',
+//     accept: () => {
+//       this.donors = this.donors.filter((val) =>
+//         this.selectedDonors!.includes(val)
+//       );
+//       this.selectedDonors = null;
+//       this.toastrSvc.success('Deleted Donor');
+//     },
+//   });
+// }

@@ -12,13 +12,20 @@ export class DonorService {
   }
   public getDonors = async () => {
     const donors = await this.donorRepo.find({
-      take: 1000,
+      take: 2000,
     });
     return donors;
   };
   public getDonorById = async (donorID: number) => {
     const donor = await this.donorRepo.findOneBy({
       ID: donorID,
+    });
+    return donor;
+  };
+  public getDonorsByPage = async (page: number) => {
+    const donor = await this.donorRepo.find({
+      skip: 2000 * (page - 1),
+      take: 2000,
     });
     return donor;
   };

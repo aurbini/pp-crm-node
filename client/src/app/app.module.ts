@@ -27,7 +27,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CardModule } from 'primeng/card';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
-
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 // import { CalendarComponent } from './pages/calendar/calendar.component';
@@ -71,7 +71,7 @@ import { ErrorComponent } from './pages/error/error.component';
     CardModule,
     TableModule,
     HttpClientModule,
-
+    NgxSpinnerModule,
     BrowserAnimationsModule,
     NgbModule,
     ToolbarModule,
@@ -93,10 +93,7 @@ import { ErrorComponent } from './pages/error/error.component';
     InputTextareaModule,
     SliderModule,
 
-    ToastrModule.forRoot({
-      positionClass: 'toast-bottom-right',
-      preventDuplicates: true,
-    }),
+    ToastrModule.forRoot(),
   ],
   providers: [ConfirmationService, MessageService],
   bootstrap: [AppComponent],

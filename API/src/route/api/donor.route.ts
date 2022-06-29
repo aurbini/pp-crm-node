@@ -6,6 +6,9 @@ const donorController = new DonorController();
 
 router.route('/getDonors').get(donorController.getDonors);
 router.route('/getDonorByID/:id').get(donorController.getDonorByID);
+router
+  .route('/getDonorsByPage/:pageNumber')
+  .get(donorController.getDonorsByPage);
 
 router.put('/editDonor/:id', donorController.editDonor);
 router.post('/addDonor', donorController.addDonor);

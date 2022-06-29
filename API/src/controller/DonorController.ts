@@ -14,12 +14,20 @@ export class DonorController {
     const donors = await this.donorService.getDonors();
     res.send(donors).json;
   };
+  public getDonorsByPage = async (req: Request, res: Response) => {
+    console.log('donor page');
+    const donors = await this.donorService.getDonorsByPage(
+      +req.params.pageNumber
+    );
+    res.send(donors).json;
+  };
   public getDonorByID = async (req: Request, res: Response) => {
     const ID = parseInt(req.params.id);
     const donor = await this.donorService.getDonorById(ID);
     console.log(donor);
     res.send(donor);
   };
+
   public editDonor = async (req: Request, res: Response) => {
     // console.log('body' + req.body);
     // console.log('params' + req.params.id);

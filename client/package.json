@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "npm run build && cd dist && mv index.html index.php && git init && git add . && git commit -m 'comment' && heroku git:remote -a ppcrm-front && git push heroku master --force"
+    "deploy": "npm run build && cd dist && mv index.html index.php && git init && git add . && git commit -m 'comment' && heroku git:remote -a ppcrm-front && git push heroku master --force && rm -rf .git"
   },
   "private": true,
   "dependencies": {
@@ -25,11 +25,13 @@
     "@popperjs/core": "^2.11.5",
     "bootstrap": "^5.1.3",
     "file-saver": "^2.0.5",
+    "ngx-spinner": "^13.1.1",
     "ngx-toastr": "^14.3.0",
     "primeicons": "^5.0.0",
     "primeng": "^13.4.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

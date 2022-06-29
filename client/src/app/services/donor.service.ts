@@ -13,6 +13,12 @@ export class DonorService {
   getDonors() {
     return this.http.get<IDonor[]>(this.baseUrl + 'api/donors/getDonors');
   }
+  getDonorsByPage(page: number) {
+    console.log('object');
+    return this.http.get<IDonor[]>(
+      this.baseUrl + 'api/donors/getDonorsByPage/' + page
+    );
+  }
   getDonorByID(id: number) {
     return this.http.get<IDonor>(
       this.baseUrl + 'api/donors/getDonorByID/' + id

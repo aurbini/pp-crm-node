@@ -1,4 +1,4 @@
-<nav id="sidebar">
+<!-- <nav id="sidebar">
   <div class="sidebar-header text-center">
     <h2 id="heading-text">Menu</h2>
   </div>
@@ -38,16 +38,78 @@
         >Search</a
       >
     </li>
-    <!-- <li role="presentation" routerLinkActive="active" class="w-100">
-      <a routerLink="voters" role="tab" data-toggle="tab" class="nav-link"
-        >Voters</a
-      >
-    </li> -->
-    <li>
-      <!-- <a routerLink="donors">Donations</a> -->
-    </li>
-    <li>
-      <!-- <a href="#">Contact</a> -->
-    </li>
+
+    <li></li>
+    <li></li>
   </ul>
-</nav>
+</nav> -->
+<div
+  class="offcanvas offcanvas-start sidebar-nav bg-dark"
+  tabindex="-1"
+  id="sidebar"
+>
+  <div class="offcanvas-body p-0">
+    <nav class="navbar-dark">
+      <ul class="navbar-nav">
+        <li>
+          <div class="text-muted small fw-bold text-uppercase px-3">CORE</div>
+        </li>
+        <li>
+          <a class="nav-link px-3">
+            <span class="me-2"><i class="bi bi-speedometer2"></i></span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="my-4"><hr class="dropdown-divider bg-light" /></li>
+        <li>
+          <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
+            Pages
+          </div>
+        </li>
+        <li
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a
+            class="nav-link px-3 sidebar-link"
+            href="#layouts"
+            routerLink="donors"
+          >
+            <span class="me-2"><i class="bi bi-layout-split"></i></span>
+            <span>Donors</span>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a href="#" class="nav-link px-3" routerLink="voters">
+            <span class="me-2"><i class="bi bi-book-fill"></i></span>
+            <span>Voters</span>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a href="#" class="nav-link px-3" routerLink="search">
+            <span class="me-2"><i class="bi bi-book-fill"></i></span>
+            <span>Search</span>
+          </a>
+        </li>
+        <li class="my-4"><hr class="dropdown-divider bg-light" /></li>
+        <li>
+          <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
+            Addons
+          </div>
+        </li>
+        <li>
+          <a href="#" class="nav-link px-3">
+            <span class="me-2"><i class="bi bi-graph-up"></i></span>
+            <span>Charts</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link px-3">
+            <span class="me-2"><i class="bi bi-table"></i></span>
+            <span>Tables</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

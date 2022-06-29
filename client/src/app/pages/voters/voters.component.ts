@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { VoterService } from '../../services/voter.service';
 import { IVoter } from '../../models/voter.model';
 import { Table } from 'primeng/table';
+import { NgxSpinnerService } from 'ngx-spinner';
+import * as xlsx from 'xlsx';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-voters',
@@ -14,23 +17,49 @@ export class VotersComponent implements OnInit {
   columns = cols;
   globalFilterValue!: '';
   @ViewChild('vt') vtRef: Table | any;
-  constructor(private voterSvc: VoterService) {}
+  constructor(
+    private voterSvc: VoterService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit(): void {
     this.getVoters();
   }
   private getVoters() {
+    this.spinner.show();
     this.voterSvc.getVoters().subscribe((voters) => {
       console.log(voters);
 
       this.voters = voters;
       this.loading = false;
+      this.spinner.hide();
     });
   }
   applyGlobalFilter($event: Event, stringVal: string) {
     this.vtRef.filterGlobal(
       ($event.target as HTMLInputElement).value,
       stringVal
+    );
+  }
+  exportAsExcel() {
+    const worksheet = xlsx.utils.json_to_sheet(this.voters);
+    const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = xlsx.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+    this.saveAsExcelFile(excelBuffer, 'products');
+  }
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    let EXCEL_TYPE =
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    let EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], {
+      type: EXCEL_TYPE,
+    });
+    FileSaver.saveAs(
+      data,
+      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
     );
   }
   clear(table: Table) {
