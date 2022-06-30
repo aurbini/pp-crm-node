@@ -9,4 +9,7 @@ router
   .post(customSearchController.getDynamicSearchData);
 router.route('/downloadFile').get(customSearchController.sendCustomSearchFile);
 
+router
+  .route('/downloadCustomFile/:searchType/:rows')
+  .get(customSearchController.downloadReport);
 export default router;

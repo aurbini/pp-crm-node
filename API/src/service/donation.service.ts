@@ -34,11 +34,11 @@ export class DonationService {
       .getMany();
     return donations;
   };
-  public getCustomSearch = async (customSearch: string[]) => {
+  public getCustomSearch = async (customSearch: string[], rows: number) => {
     const result = await this.donationRepo
       .createQueryBuilder('donations')
       .select(customSearch)
-      .take(1000)
+      .take(rows)
       .getMany();
     return result;
   };

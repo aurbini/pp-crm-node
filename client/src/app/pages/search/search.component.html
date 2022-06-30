@@ -42,7 +42,23 @@
         >
           <div>
             <label><strong>Table Columns</strong> </label>
-            <div class="checkbox-group" class="row">
+            <div class="checkbox-group">
+              <label class="custom-control-label" for="customSwitches">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="customSwitches"
+                  (change)="onSelectAllCategories($event)"
+                  #selectAllCategoriesCheck
+                />
+                Select All Columns?
+              </label>
+            </div>
+            <div
+              class="checkbox-group"
+              class="row"
+              *ngIf="!isAllCategoriesChecked"
+            >
               <div *ngFor="let data of categories; let i = index" class="col-5">
                 <div>
                   <label>
@@ -55,6 +71,21 @@
                   </label>
                 </div>
               </div>
+            </div>
+            <div class="form-group row mt-3">
+              <div class="col-3">
+                <label for="">How many Rows?</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="rows"
+                />
+              </div>
+              <label
+                *ngIf="!form.get('rows')!.valid && form.get('rows')!.touched"
+                for=""
+                >Please select a number between 1 - 2000</label
+              >
             </div>
             <hr />
             <div class="row justify-content-end gx-2">
@@ -69,7 +100,12 @@
                 </button>
               </div>
               <div class="col-2">
-                <button class="btn btn-primary" type="submit" value="Submit">
+                <button
+                  class="btn btn-primary"
+                  type="submit"
+                  value="Submit"
+                  [disabled]="form.invalid"
+                >
                   Submit
                 </button>
               </div>

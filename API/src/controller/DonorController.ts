@@ -44,36 +44,36 @@ export class DonorController {
     const deletedDonor = await this.donorService.removeDonor(req.params.id);
     res.send({ message: 'deleted Donor' });
   };
-  public getCustomSearch = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    const searchArr = req.body.checkArray;
-    const tranformSearch = [];
-    for (let i = 0; i < searchArr.length; i++) {
-      const element = searchArr[i];
-      tranformSearch.push(`donor.${element}`);
-    }
-    try {
-      const donors = await this.donorService.getCustomSearch(tranformSearch);
-      const workSheetColumnNames = [];
-      const filePath = './src/dataFiles/excel.xlsx';
-      const workSheetName = 'customSearch';
-      for (const key in donors[0]) {
-        workSheetColumnNames.push(key);
-      }
-      await exportUsersToExcel(
-        donors,
-        workSheetColumnNames,
-        workSheetName,
-        filePath
-      );
+  // public getCustomSearch = async (
+  //   req: Request,
+  //   res: Response,
+  //   next: NextFunction
+  // ) => {
+  //   const searchArr = req.body.checkArray;
+  //   const tranformSearch = [];
+  //   for (let i = 0; i < searchArr.length; i++) {
+  //     const element = searchArr[i];
+  //     tranformSearch.push(`donor.${element}`);
+  //   }
+  //   try {
+  //     const donors = await this.donorService.getCustomSearch(tranformSearch);
+  //     const workSheetColumnNames = [];
+  //     const filePath = './src/dataFiles/excel.xlsx';
+  //     const workSheetName = 'customSearch';
+  //     for (const key in donors[0]) {
+  //       workSheetColumnNames.push(key);
+  //     }
+  //     await exportUsersToExcel(
+  //       donors,
+  //       workSheetColumnNames,
+  //       workSheetName,
+  //       filePath
+  //     );
 
-      // res.json({ message: 'sucess file created' });
-      return donors;
-    } catch (err) {
-      res.json({ error: err });
-    }
-  };
+  //     // res.json({ message: 'sucess file created' });
+  //     return donors;
+  //   } catch (err) {
+  //     res.json({ error: err });
+  //   }
+  // };
 }

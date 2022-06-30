@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -12,6 +12,7 @@ import { saveAs } from 'file-saver';
 import { SearchType } from 'src/app/models/searchType.enum';
 import { SearchCategory } from '../../models/searchCategory.interface';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'search-app',
   templateUrl: 'search.component.html',
@@ -22,14 +23,25 @@ export class SearchComponent implements OnInit {
   categories: SearchCategory[];
   searchTypes = SearchType;
   userSearchType: SearchType;
+  isAllCategoriesChecked = false;
+  isError = false;
+  errorMessage: string;
+  @ViewChild('selectAllCategoriesCheck', { static: false })
+  checkBox: ElementRef;
   constructor(
     private fb: FormBuilder,
     private searchService: SearchService,
     private noteService: NoteService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) {
     this.form = this.fb.group({
       checkArray: this.fb.array([], [Validators.required]),
+      rows: new FormControl(null, [
+        Validators.required,
+        Validators.max(2000),
+        Validators.min(1),
+      ]),
     });
   }
   ngOnInit() {
@@ -58,25 +70,52 @@ export class SearchComponent implements OnInit {
   }
   onChangeSearchType(userSearchType: SearchType) {
     this.userSearchType = userSearchType;
-    console.log(userSearchType);
     this.categories = this.searchService.getSearchCategories(userSearchType);
     (this.form.controls['checkArray'] as FormArray).clear();
-    console.log(this.form.controls);
-
-    // console.log(this.categories);
+    this.form.reset();
+    this.checkBox.nativeElement.checked = false;
+    this.isAllCategoriesChecked = false;
   }
   async onSubmit() {
     this.spinner.show();
-    try {
-      console.log(this.form.value);
-      await this.searchService.customSearch(
-        this.form.value,
-        this.userSearchType
+
+    const checkArray: FormArray = this.form.get('checkArray') as FormArray;
+    const paramObj: any = {};
+    checkArray.controls.forEach((element, index) => {
+      paramObj[`param${index}`] = element.value;
+    });
+    this.searchService
+      .downloadCustomReport(
+        paramObj,
+        this.userSearchType,
+        this.form.get('rows')!.value,
+        this.spinner
+      )
+      .subscribe(
+        () => {
+          this.toastr.success('Report Downloaded Successfully');
+        },
+        (error) => {
+          this.spinner.hide();
+          this.errorMessage = error.message;
+          this.isError = true;
+          this.toastr.error(
+            'Server Error, please try again or reach out for help'
+          );
+        }
       );
-      this.searchService.downloadCustomDonorSearch(this.spinner);
-      console.log('done searching');
-    } catch (err) {
-      console.log(err);
+  }
+  onSelectAllCategories(event: Event) {
+    const ischecked = (<HTMLInputElement>event.target).checked;
+    const checkArray: FormArray = this.form.get('checkArray') as FormArray;
+    if (ischecked) {
+      this.categories.forEach((category) => {
+        checkArray.push(new FormControl(category.title));
+      });
+      this.isAllCategoriesChecked = true;
+    } else {
+      (this.form.controls['checkArray'] as FormArray).clear();
+      this.isAllCategoriesChecked = false;
     }
   }
   resetForm() {

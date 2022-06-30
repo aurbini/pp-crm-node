@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { IDonor } from '../models/donor.model';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { INote } from '../models/note.model';
 import { SearchType } from 'src/app/models/searchType.enum';
 import { IVoter } from '../models/voter.model';
 import { IDonation } from '../models/donation.model';
 import { EmailValidator } from '@angular/forms';
 import { SearchCategory } from '../models/searchCategory.interface';
+import { throwError, map, catchError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SearchService {
@@ -19,33 +20,43 @@ export class SearchService {
     return new SearchCategories(search).constructSearchCategories();
   }
 
-  customSearch(searchArr: any[], searchType: SearchType) {
-    // console.log(this.baseUrl + 'api/donors/customSearch');
-    const searchObj = { ...searchArr };
+  downloadCustomReport(
+    paramObject: any,
+    searchType: string,
+    row: number,
+    spinner: any
+  ): any {
+    let queryParams = new HttpParams();
+    for (const key in paramObject) {
+      queryParams = queryParams.append(key, paramObject[key]);
+    }
     return this.http
-      .post<any>(
-        this.baseUrl + 'api/search/getCustomSearch/' + searchType,
-        searchObj
-      )
-      .subscribe();
-  }
-  async downloadCustomDonorSearch(spinner: any) {
-    this.http
-      .get(this.baseUrl + 'api/search/downloadFile', {
-        responseType: 'arraybuffer',
-      })
-      .subscribe((data) => {
-        console.log('h');
-        spinner.hide();
-        console.log(data);
-        const type = 'application/ms-excel';
-        let blob = new Blob([data], { type: type });
-        let url = window.URL.createObjectURL(blob);
-        let pwa = window.open(url);
-        if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
-          alert('Please disable your Pop-up blocker and try again.');
+      .get(
+        this.baseUrl +
+          'api/search/downloadCustomFile/' +
+          searchType +
+          '/' +
+          row,
+        {
+          responseType: 'arraybuffer',
+          params: queryParams,
         }
-      });
+      )
+      .pipe(
+        map((data) => {
+          spinner.hide();
+          const type = 'application/ms-excel';
+          let blob = new Blob([data], { type: type });
+          let url = window.URL.createObjectURL(blob);
+          let pwa = window.open(url);
+          if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
+            alert('Please disable your Pop-up blocker and try again.');
+          }
+        }),
+        catchError((err) => {
+          return throwError(err); //Rethrow it back to component
+        })
+      );
   }
 }
 
@@ -98,7 +109,6 @@ export class VoterCategories {
   zipCode = 'zipCode';
   zipCodeFour = 'zipCodeFour';
   previousAddress = 'previousAddress';
-  IVoter = 'IVoter';
   public firstName: string = 'firstName';
   public middleName: string = 'middleName';
   public lastName = 'lastName';

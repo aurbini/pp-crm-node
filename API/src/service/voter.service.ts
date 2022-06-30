@@ -12,11 +12,11 @@ export class VoterService {
     });
     return voters;
   }
-  public getCustomSearch = async (customSearch: string[]) => {
+  public getCustomSearch = async (customSearch: string[], rows: number) => {
     const result = await this.voterRepo
       .createQueryBuilder('voter')
       .select(customSearch)
-      .take(1000)
+      .take(rows)
       .getMany();
     return result;
   };

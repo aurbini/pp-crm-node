@@ -40,11 +40,11 @@ export class DonorService {
   public removeDonor = async (donorID: string) => {
     const result = await this.donorRepo.delete(donorID);
   };
-  public getCustomSearch = async (customSearch: string[]) => {
+  public getCustomSearch = async (customSearch: string[], rows: number) => {
     const result = await this.donorRepo
       .createQueryBuilder('donor')
       .select(customSearch)
-      .take(1000)
+      .take(rows)
       .getMany();
     return result;
   };
