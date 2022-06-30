@@ -6,28 +6,41 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-import { SearchCategory } from 'src/app/services/search.service';
 import { SearchService } from '../../services/search.service';
 import { NoteService } from 'src/app/services/note.service';
 import { saveAs } from 'file-saver';
+import { SearchType } from 'src/app/models/searchType.enum';
+import { SearchCategory } from '../../models/searchCategory.interface';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'search-app',
   templateUrl: 'search.component.html',
+  styleUrls: ['./search.component.css'],
 })
 export class SearchComponent implements OnInit {
   form: FormGroup;
   categories: SearchCategory[];
+  searchTypes = SearchType;
+  userSearchType: SearchType;
   constructor(
     private fb: FormBuilder,
     private searchService: SearchService,
-    private noteService: NoteService
+    private noteService: NoteService,
+    private spinner: NgxSpinnerService
   ) {
-    this.categories = searchService.getSearchCategories();
     this.form = this.fb.group({
       checkArray: this.fb.array([], [Validators.required]),
     });
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.userSearchType = SearchType.donor;
+    this.getSearchCategories();
+  }
+  getSearchCategories() {
+    this.categories = this.searchService.getSearchCategories(
+      this.searchTypes.donor
+    );
+  }
   onCheckboxChange(e: any) {
     const checkArray: FormArray = this.form.get('checkArray') as FormArray;
     if (e.target.checked) {
@@ -43,15 +56,31 @@ export class SearchComponent implements OnInit {
       });
     }
   }
+  onChangeSearchType(userSearchType: SearchType) {
+    this.userSearchType = userSearchType;
+    console.log(userSearchType);
+    this.categories = this.searchService.getSearchCategories(userSearchType);
+    (this.form.controls['checkArray'] as FormArray).clear();
+    console.log(this.form.controls);
+
+    // console.log(this.categories);
+  }
   async onSubmit() {
-    // console.log(this.form.value);
+    this.spinner.show();
     try {
-      await this.searchService.customDonorSearch(this.form.value);
-      await this.searchService.downloadCustomDonorSearch();
+      console.log(this.form.value);
+      await this.searchService.customSearch(
+        this.form.value,
+        this.userSearchType
+      );
+      this.searchService.downloadCustomDonorSearch(this.spinner);
+      console.log('done searching');
     } catch (err) {
       console.log(err);
     }
-    // const post = this.noteService.createNote(this.form.value);
-    // console.log(post);
+  }
+  resetForm() {
+    this.getSearchCategories();
+    (this.form.controls['checkArray'] as FormArray).clear();
   }
 }

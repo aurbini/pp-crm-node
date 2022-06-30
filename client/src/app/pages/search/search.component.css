@@ -1,0 +1,12 @@
+.active-pane {
+  background-color: #5c7aea;
+  color: white;
+}
+.nav-item:hover {
+  background-color: #f4f5fa;
+  border: 1px solid transparent;
+  color: black;
+}
+.active-pane:hover {
+  background-color: #5c7aea !important;
+}

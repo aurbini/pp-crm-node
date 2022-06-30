@@ -3,29 +3,41 @@ import { IDonor } from '../models/donor.model';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { INote } from '../models/note.model';
+import { SearchType } from 'src/app/models/searchType.enum';
+import { IVoter } from '../models/voter.model';
+import { IDonation } from '../models/donation.model';
+import { EmailValidator } from '@angular/forms';
+import { SearchCategory } from '../models/searchCategory.interface';
 
 @Injectable({ providedIn: 'root' })
 export class SearchService {
   baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
-  getSearchCategories(): SearchCategory[] {
-    return new SearchCategories().getSearchCategories();
+
+  getSearchCategories(search: SearchType): SearchCategory[] {
+    return new SearchCategories(search).constructSearchCategories();
   }
 
-  customDonorSearch(searchArr: any[]) {
+  customSearch(searchArr: any[], searchType: SearchType) {
     // console.log(this.baseUrl + 'api/donors/customSearch');
     const searchObj = { ...searchArr };
     return this.http
-      .post<any>(this.baseUrl + 'api/donors/customSearch', searchObj)
+      .post<any>(
+        this.baseUrl + 'api/search/getCustomSearch/' + searchType,
+        searchObj
+      )
       .subscribe();
   }
-  downloadCustomDonorSearch() {
+  async downloadCustomDonorSearch(spinner: any) {
     this.http
-      .get(this.baseUrl + 'api/donors/downloadFile', {
+      .get(this.baseUrl + 'api/search/downloadFile', {
         responseType: 'arraybuffer',
       })
       .subscribe((data) => {
+        console.log('h');
+        spinner.hide();
+        console.log(data);
         const type = 'application/ms-excel';
         let blob = new Blob([data], { type: type });
         let url = window.URL.createObjectURL(blob);
@@ -39,42 +51,19 @@ export class SearchService {
 
 class SearchCategories {
   searchCategoriesArr: SearchCategory[] = [];
-  id: number;
-  firstName: string;
-  middleName: string;
-  lastName: string;
-  finalName: string;
-  email: string;
-  phone: string;
-  street1: string;
-  street2: string;
-  city: string;
-  state: string;
-  stateID: string;
-  zip: string;
-  occupation: string;
-  isIndividual: string;
-  constructor() {
-    this.id = 0;
-    this.firstName = 'firstName';
-    this.middleName = 'middleName';
-    this.lastName = 'lastName';
-    this.finalName = 'finalName';
-    this.email = 'email';
-    this.phone = 'phone';
-    this.street1 = 'street1';
-    this.street2 = 'street2';
-    this.city = 'city';
-    this.state = 'state';
-    this.stateID = 'stateID';
-    this.zip = 'zip';
-    this.occupation = 'occupation';
-    this.isIndividual = 'isIndividual';
-  }
-  getSearchCategories(): SearchCategory[] {
-    const searchCategories = new SearchCategories();
+  searchObject: DonorCategories | VoterCategories | Donation;
+  searchType: SearchType;
 
-    for (const [k, v] of Object.entries(searchCategories)) {
+  constructor(SearchType: SearchType) {
+    this.searchType = SearchType;
+  }
+  constructSearchCategories() {
+    if (this.searchType == SearchType.donor)
+      this.searchObject = new DonorCategories();
+    else if (this.searchType == SearchType.voter)
+      this.searchObject = new VoterCategories();
+    else this.searchObject = new Donation();
+    for (const [k, v] of Object.entries(this.searchObject)) {
       if (k !== 'id') {
         this.searchCategoriesArr.push({
           title: k,
@@ -82,10 +71,103 @@ class SearchCategories {
         });
       }
     }
+
     return this.searchCategoriesArr;
   }
 }
-export interface SearchCategory {
-  title: string;
-  value: string;
+export class DonorCategories {
+  ID = 'ID';
+  firstName = 'firstName';
+  middleName = 'middleName';
+  lastName = 'lastName';
+  finalName = 'finalName';
+  email = 'email';
+  phone = 'phone';
+  street1 = 'street1';
+  street2 = 'street2';
+  city = 'city';
+  state = 'state';
+  stateID = '';
+  zip = 'zip';
+  occupation = 'occupation';
+  isIndividual = 'isIndividual';
+  constructor() {}
+}
+export class VoterCategories {
+  id = 'id';
+  zipCode = 'zipCode';
+  zipCodeFour = 'zipCodeFour';
+  previousAddress = 'previousAddress';
+  IVoter = 'IVoter';
+  public firstName: string = 'firstName';
+  public middleName: string = 'middleName';
+  public lastName = 'lastName';
+  public email = 'email';
+  public phone = 'phone';
+  public dateOfBirth = 'dateOfBirth';
+  public gender = 'gender';
+  public address = 'address';
+  public city = 'city';
+  public countyName = 'countyName';
+  public countyID = 'countyID';
+  public stateCode = 'stateCode';
+  public ZIPCodeFour = 'ZIPCodeFour';
+  public mailingAddress = 'mailingAddress';
+  public politicalPartyCode = 'politicalPartyCode';
+  public electionDistrict = 'electionDistrict';
+  public legislativeDistrict = 'legislativeDistrict';
+  public townCity = 'townCity';
+  public ward = 'ward';
+  public congressionalDistrict = 'congressionalDistrict';
+  public senateDistrict = 'senateDistric';
+  public assemblyDistrict = 'assemblyDistrict';
+  public lastYearVoted = 'lastYearVoted';
+  public previousCountyID = 'previousCountyID';
+  public previousName = 'previousName';
+  public countyVRNumber = 'countyVRNumber';
+  public statusCode = 'statusCode';
+  public voterID = 'voterID';
+  public voterHistory = 'voterHistory';
+  stateFIPS = 'stateFIPS';
+
+  constructor() {}
+}
+export class Donation {
+  ID = 'ID';
+  donor = 'donor';
+  firstName = 'firstName';
+  middleName = 'middleName';
+  lastName = 'lastName';
+  email = 'email';
+  committeeType = 'committeeType';
+  street1 = 'street1';
+  street2 = 'street2';
+  city = 'city';
+  state = 'state';
+  zip = 'zip';
+  date = 'date';
+  amount = 'amount';
+  occupation = 'occupation';
+  employerStreet1 = 'employerStreet1';
+  employerStreet2 = 'employerStreet2';
+  employerCity = 'employerCity';
+  employerState = 'employerState';
+  employerZip = 'employerZip';
+  IntermediaryDonation = 'IntermediaryDonation';
+  IntermediaryName = 'IntermediaryName ';
+  IntermediaryStreet1 = 'IntermediaryStreet1';
+  IntermediaryStreet2 = 'IntermediaryStreet2';
+  IntermediarySity = 'IntermediarySity';
+  IntermediaryState = 'IntermediaryState';
+  IntermediaryZip = 'IntermediaryZip';
+  IntermediaryEmail = 'IntermediaryEmail';
+  activeStatus = 'activeStatus';
+  committeeID = 'committeeID';
+  orgType = 'orgType';
+  party = 'party';
+  recordType = 'recordType';
+  recipient = 'recipient';
+  cycle = 'cycle';
+  FinalName = 'FinalName';
+  isIndividual = 'isIndividual';
 }

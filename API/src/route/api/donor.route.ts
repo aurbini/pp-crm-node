@@ -13,6 +13,6 @@ router
 router.put('/editDonor/:id', donorController.editDonor);
 router.post('/addDonor', donorController.addDonor);
 router.route('/customSearch').post(donorController.getCustomSearch);
-router.route('/downloadFile').get(donorController.sendCustomSearchFile);
+// router.route('/downloadFile').get(donorController.sendCustomSearchFile);
 router.delete('/deleteDonor/:id', donorController.deleteDonorByID);
 export default router;

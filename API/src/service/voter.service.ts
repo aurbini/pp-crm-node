@@ -12,4 +12,12 @@ export class VoterService {
     });
     return voters;
   }
+  public getCustomSearch = async (customSearch: string[]) => {
+    const result = await this.voterRepo
+      .createQueryBuilder('voter')
+      .select(customSearch)
+      .take(1000)
+      .getMany();
+    return result;
+  };
 }

@@ -70,16 +70,10 @@ export class DonorController {
         filePath
       );
 
-      res.json({ message: 'sucess file created' });
+      // res.json({ message: 'sucess file created' });
+      return donors;
     } catch (err) {
       res.json({ error: err });
     }
-  };
-  sendCustomSearchFile = async (req: Request, res: Response) => {
-    res.download('./src/dataFiles/excel.xlsx', () => {
-      fs.unlink('./src/dataFiles/excel.xlsx', function () {
-        console.log('file aws deleted');
-      });
-    });
   };
 }

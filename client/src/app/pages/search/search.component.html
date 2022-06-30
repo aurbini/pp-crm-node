@@ -1,7 +1,38 @@
-<div class="row p-3">
+<div class="row px-3 pb-3">
+  <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
   <div class="col">
     <p-card>
-      <ng-template pTemplate="header"> Donor Search Criteria </ng-template>
+      <ng-template pTemplate="header"> </ng-template>
+      <div class="row gx-3 justify-content-center">
+        <div class="col-3">
+          <h4
+            [ngClass]="userSearchType == 'donor' ? 'active-pane' : ''"
+            (click)="onChangeSearchType(searchTypes.donor)"
+            class="text-center nav-item p-3 ml-2 rounded"
+          >
+            Donors
+          </h4>
+        </div>
+        <div class="col-3">
+          <h4
+            [ngClass]="userSearchType == 'voter' ? 'active-pane' : ''"
+            (click)="onChangeSearchType(searchTypes.voter)"
+            class="text-center nav-item p-3 rounded"
+          >
+            Voters
+          </h4>
+        </div>
+        <div class="col-3">
+          <h4
+            [ngClass]="userSearchType == 'donations' ? 'active-pane' : ''"
+            (click)="onChangeSearchType(searchTypes.donations)"
+            class="text-center nav-item p-3 rounded"
+          >
+            Donations
+          </h4>
+        </div>
+      </div>
       <ng-template pTemplate="content">
         <form
           [formGroup]="form"
@@ -10,7 +41,7 @@
           class="form-group"
         >
           <div>
-            <label>Product Category <strong>(Form Group)</strong></label>
+            <label><strong>Table Columns</strong> </label>
             <div class="checkbox-group" class="row">
               <div *ngFor="let data of categories; let i = index" class="col-5">
                 <div>
@@ -25,8 +56,24 @@
                 </div>
               </div>
             </div>
-            <input type="submit" value="Submit" />
-
+            <hr />
+            <div class="row justify-content-end gx-2">
+              <div class="col-2">
+                <button
+                  (click)="resetForm()"
+                  class="btn btn-danger"
+                  type="button"
+                  value="Submit"
+                >
+                  Reset
+                </button>
+              </div>
+              <div class="col-2">
+                <button class="btn btn-primary" type="submit" value="Submit">
+                  Submit
+                </button>
+              </div>
+            </div>
             <p
               class="error"
               *ngIf="this.form.controls['checkArray'].errors?.['required']"
@@ -38,7 +85,7 @@
           </div>
         </form>
       </ng-template>
-      <ng-template pTemplate="footer"> Footer content here </ng-template>
+      <ng-template pTemplate="footer"> </ng-template>
     </p-card>
   </div>
 </div>
